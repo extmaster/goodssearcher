@@ -1,0 +1,69 @@
+data: {
+    shops: {
+        "AliExpress": {
+            name: "aliexpress.com",
+            link: "https://www.aliexpress.com/wholesale?SearchText=xxx"
+        },
+        "eBay": {
+            name: "ebay.com",
+            link: "https://www.ebay.com/sch/i.html?_nkw=xxx"
+        },
+        "Amazon": {
+            name: "amazon.com",
+            link: "https://www.amazon.com/s?k=xxx"
+        },
+        "GearBest": {
+            name: "gearbest.com",
+            link: "https://www.gearbest.com/search/?Keyword=xxx"
+        },
+        "YouTube": {
+            name: "youtube.com",
+            link: "https://www.youtube.com/results?search_query=xxx"
+        },
+        "SunSky": {
+            name: "sunsky-online.com",
+            link: "https://www.sunsky-online.com/product/default!search.do?keyword=xxx"
+        },
+        "DealeXtreme": {
+            name: "dealextreme.com",
+            link: "https://www.dx.com/s/xxx"
+        },
+        "TinyDeal": {
+            name: "tinydeal.com",
+            link: "https://www.tinydeals.co/?s=xxx"
+        },
+        "Joom": {
+            name: "joom.com",
+            link: "https://www.joom.com/en/search/q.xxx"
+        },
+        "BangGood": {
+            name: "banggood.com",
+            link: "https://www.banggood.com/search/xxx.html"
+        },
+        "TomTop": {
+            name: "tomtop.com",
+            link: "https://www.tomtop.com/search/xxx.html"
+        },
+        "Asos": {
+            name: "asos.com",
+            link: "https://www.asos.com/search/?q=xxx"
+        },
+        "AliBaba": {
+            name: "alibaba.com",
+            link: "https://www.alibaba.com/trade/search?SearchText=xxx"
+        }
+    },
+    regsLinks: [
+        ["https:\\/\\/([a-z]+\\.)?([a-z]+\\.)?aliexpress\\.[a-z]{2,3}\\/item\\/\\d+\\.html", "5n8knuvb"],
+        ["https:\\/\\/market\\.yandex\\.\\w{2,4}\\/product--[\\w-]+\\/\\d+", "5dxbwz8b"],
+        ["https:\\/\\/(www\\.)?mvideo\\.ru\\/products\\/[\\w-]+", "3s5jmb9m"],
+        ["https:\\/\\/hoff\\.ru\\/catalog\\/[\\w_\\/]+\\?articul=\\d+", "ytjmr868"],
+        ["https:\\/\\/(www\\.)?citilink\\.ru\\/product\\/[\\w-]+-\\d+\\/", "yc32z2pk"],
+        ["https:\\/\\/(www\\.)?alibaba\\.com\\/product-detail\\/[\\w-]+_\\d+\\.html", "54px8yd4"],
+        ["https:\\/\\/(www\\.)?svyaznoy\\.ru\\/catalog\\/[a-z]+\\/\\d+\\/\\d+", "ydvu2ctr"],
+        ["https:\\/\\/(www\\.)?eldorado\\.ru\\/cat\\/detail\\/[\\w-]+\\/", "2p968e3v"],
+        ["https:\\/\\/(www\\.)?booking\\.com\\/index(\\.[a-z-]{2,5})?\\.html", "ewmekt4j"],
+        ["https:\\/\\/[a-z]{2,3}\\.banggood\\.com\\/[\\/\\+\\w-]+\\.html", "39usmyzx"],
+        ["https:\\/\\/(www\\.)?honor\\.ru\\/[a-z]+\\/[\\w-]+\\/", "pfu622en"]
+    ]
+};
