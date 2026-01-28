@@ -1,0 +1,26 @@
+{
+   "appDesc": {
+      "message": "This extension is looking for the right product for the selected text on popular trading platforms: Aliexpress, eBay, Amazon..."
+   },
+   "appName": {
+      "message": "Goods Searcher"
+   },
+   "extName": {
+      "message": "Product searcher"
+   },
+   "onGoogle": {
+      "message": "Searches for the selected text used Google search-engine"
+   },
+   "onSite": {
+      "message": "Searches for the selected text directly into these sites"
+   },
+   "onYandex": {
+      "message": "Searches for the selected text used Yandex search-engine"
+   },
+   "selectors": {
+      "message": "Left click select checkbox, rigth click or scroll change site for search"
+   },
+   "setting": {
+      "message": "Additional settings for AliExpress"
+   }
+}

@@ -1,0 +1,11 @@
+{
+   "appDesc": {
+      "message": "This extension is looking for the right product for the selected text on popular trading platforms: Aliexpress, eBay, Amazon..."
+   },
+   "appName": {
+      "message": "Goods Searcher"
+   },
+   "extName": {
+      "message": "Product searcher"
+   }
+}

@@ -1,0 +1,424 @@
+/*
+   SCALABLE UI (VH-based)
+   Base scaling factor: Window Height.
+   Target Height: 69vh (~0.69 * screen height).
+*/
+
+:host {
+    all: initial;
+    font-family:
+        "Segoe UI",
+        system-ui,
+        -apple-system,
+        sans-serif;
+    /* Base unit derived from viewport height for perfect scaling */
+    --h-unit: 1vh;
+
+    /* Global Colors */
+    --bg-color: #1e1e1e;
+    --item-bg: #2d2d2d;
+    --item-hover: #383838;
+    --text-color: #e0e0e0;
+    --accent: #e74c3c;
+    --border: #333;
+
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* --- Overlay --- */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 2147483647;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s;
+}
+
+.overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* --- Main Window --- */
+.container {
+    background: var(--bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--border);
+    border-radius: 1.5vh;
+    box-shadow: 0 2vh 5vh rgba(0, 0, 0, 0.8);
+
+    /* SCALING GEOMETRY */
+    height: 69vh; /* The requested 0.69 coefficient */
+    width: 45vh; /* Aspect ratio approx 1:1.5 relative to height */
+
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* NO SCROLLBARS allowed in main frame */
+    position: relative;
+    font-size: 1.8vh; /* Base font size scales with window */
+}
+
+/* --- Top: Action Buttons (approx 30%) --- */
+.action-area {
+    flex: 0 0 22vh; /* Fixed proportion of the 69vh */
+    display: flex;
+    padding: 1.5vh;
+    gap: 1.5vh;
+    background: #252526;
+    border-bottom: 0.2vh solid var(--border);
+}
+
+.btn-half {
+    flex: 1; /* 50/50 split */
+    position: relative;
+}
+
+/* Button 1: On Site */
+.btn-onsite {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 1.2vh;
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: filter 0.2s;
+}
+.btn-onsite:hover {
+    filter: brightness(1.1);
+}
+.btn-onsite:active {
+    transform: scale(0.98);
+}
+
+.btn-onsite svg {
+    width: 5vh;
+    height: 5vh;
+    fill: currentColor;
+    margin-bottom: 1vh;
+}
+.btn-label {
+    font-size: 2vh;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* Button 2: Cube */
+.scene {
+    width: 100%;
+    height: 100%;
+    perspective: 80vh;
+}
+
+.cube {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform-origin: center center -3.2vh; /* Adjust based on approx half-depth */
+}
+
+/* Dynamic depth calculation is hard in pure CSS without known pixels.
+   We assume the button depth/height implies a Z-translate.
+   For 22vh container height minus padding, height is ~19vh.
+   Half is ~9.5vh.
+*/
+.cube__face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--item-bg);
+    border: 0.2vh solid #444;
+    border-radius: 1.2vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2vh;
+    font-weight: bold;
+    color: white;
+    backface-visibility: hidden;
+    text-transform: uppercase;
+    text-shadow: 0 0.2vh 0.5vh rgba(0, 0, 0, 0.5);
+    user-select: none;
+    cursor: pointer;
+}
+
+.cube__face--front {
+    transform: rotateX(0deg) translateZ(8.5vh); /* Approx half height */
+}
+.cube__face--bottom {
+    transform: rotateX(-90deg) translateZ(8.5vh);
+}
+
+.cube.is-flipped {
+    transform: rotateX(90deg);
+}
+
+/* --- Middle: Store List (approx 60%) --- */
+.store-list {
+    flex: 1; /* Retake remaining space */
+    display: flex;
+    flex-direction: column;
+    padding: 1vh 1.5vh;
+    gap: 0.8vh;
+    background: var(--bg-color);
+    /* No scrollbars */
+    overflow: hidden;
+}
+
+/* Each row takes equal space */
+.store-item {
+    flex: 1;
+    background: var(--item-bg);
+    border-radius: 1vh;
+    display: flex;
+    align-items: center;
+    padding: 0 1.5vh;
+    border: 0.1vh solid transparent;
+    transition: background 0.2s;
+}
+.store-item:hover {
+    background: var(--item-hover);
+    border-color: #555;
+}
+.store-item.active {
+    border-color: #555;
+    background: #333;
+}
+
+/* Checkbox Switch */
+.switch {
+    display: block;
+    width: 6vh;
+    height: 3.2vh;
+    position: relative;
+    margin-right: 2vh;
+}
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #555;
+    border-radius: 3vh;
+    transition: 0.3s;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 2.4vh;
+    width: 2.4vh;
+    left: 0.4vh;
+    bottom: 0.4vh;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+input:checked + .slider {
+    background-color: #4caf50;
+}
+input:checked + .slider:before {
+    transform: translateX(2.8vh);
+}
+
+/* Slot Text Area */
+.slot-viewport {
+    flex: 1;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        black 15%,
+        black 85%,
+        transparent 100%
+    );
+}
+
+.slot-strip {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.slot-text {
+    /* Height must match the row height calculation in JS.
+       Since rows are flex:1, we center flex content.
+       But for calculation, let's fix the text box height relative to viewport
+       so alignment is predictable. */
+    height: 6vh;
+    display: flex;
+    align-items: center;
+    font-size: 2.1vh;
+    font-weight: 600;
+    color: #888;
+    white-space: nowrap;
+}
+
+.store-item.active .slot-text {
+    color: #fff;
+    text-shadow: 0 0 1vh rgba(255, 255, 255, 0.3);
+}
+
+/* Brand Colors */
+.store-item[data-brand="ali"].active .slot-text {
+    color: #ff6a00;
+    text-shadow: 0 0 1vh rgba(255, 106, 0, 0.4);
+}
+.store-item[data-brand="wb"].active .slot-text {
+    color: #cb11ab;
+}
+.store-item[data-brand="ozon"].active .slot-text {
+    color: #005bff;
+}
+.store-item[data-brand="ebay"].active .slot-text {
+    color: #0064d2;
+}
+.store-item[data-brand="amazon"].active .slot-text {
+    color: #ff9900;
+}
+
+/* --- Bottom: Controls (approx 10%) --- */
+.bottom-bar {
+    flex: 0 0 7vh;
+    background: #252526;
+    border-top: 0.1vh solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 1.5vh;
+}
+
+.hint-text {
+    margin-right: auto;
+    font-size: 1.4vh;
+    color: #777;
+    font-style: italic;
+}
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    color: #888;
+    width: 4.5vh;
+    height: 4.5vh;
+    border-radius: 0.8vh;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 1vh;
+}
+.icon-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+.icon-btn svg {
+    width: 2.8vh;
+    height: 2.8vh;
+    fill: currentColor;
+}
+
+/* --- Settings Drawer --- */
+.drawer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%; /* Half window height */
+    background: #2b2b2b;
+    border-top: 0.2vh solid #e74c3c;
+    box-shadow: 0 -2vh 5vh rgba(0, 0, 0, 0.5);
+    transform: translateY(110%);
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+}
+.drawer.open {
+    transform: translateY(0);
+}
+
+.drawer-header {
+    flex: 0 0 6vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2vh;
+    background: #333;
+    font-size: 2vh;
+    font-weight: bold;
+}
+.close-drawer-btn {
+    background: none;
+    border: none;
+    color: #aaa;
+    font-size: 3vh;
+    cursor: pointer;
+}
+.close-drawer-btn:hover {
+    color: #fff;
+}
+
+.drawer-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2vh;
+}
+
+.settings-section {
+    margin-bottom: 3vh;
+}
+.settings-title {
+    font-size: 1.6vh;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 1.5vh;
+    border-bottom: 1px solid #444;
+    padding-bottom: 0.5vh;
+}
+
+.radio-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.2vh;
+    cursor: pointer;
+    font-size: 1.8vh;
+    color: #ccc;
+}
+.radio-row:hover {
+    color: white;
+}
+.radio-row input {
+    margin-right: 1.5vh;
+    transform: scale(1.5); /* radio buttons are small by default */
+}
