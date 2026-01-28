@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Slot Machine Search V2</title>
+        <style>
+            body {
+                background-color: #1a1a1a;
+                color: white;
+                font-family: "Segoe UI", sans-serif;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                margin: 0;
+            }
+
+            /* Контейнер для барабанов */
+            .slots-container {
+                display: flex;
+                gap: 3px; /* Меньше зазор, чтобы влезло слово Wildberries */
+                margin-bottom: 40px;
+                padding: 15px;
+                background: #2d2d2d;
+                border-radius: 12px;
+                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+                border: 1px solid #444;
+            }
+
+            /* Окошко одной буквы */
+            .slot-window {
+                width: 60px; /* Чуть уже, чтобы влезло 12 букв */
+                height: 80px; /* Чуть ниже */
+                background-color: #f0f0f0;
+                border: 2px solid #e74c3c;
+                border-radius: 6px;
+                overflow: hidden;
+                position: relative;
+                /* Тень внутри, чтобы создать объем */
+                box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+            }
+
+            /* Лента с буквами */
+            .slot-strip {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                /* transition будем задавать в JS */
+                will-change: transform;
+            }
+
+            /* Сама буква */
+            .slot-char {
+                height: 80px; /* Должно совпадать с высотой окна */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 50px; /* Чуть меньше шрифт */
+                font-weight: 800;
+                color: #333;
+                text-transform: uppercase;
+                box-sizing: border-box;
+            }
+
+            /* Управление */
+            .controls {
+                display: flex;
+                gap: 10px;
+                background: #2d2d2d;
+                padding: 10px;
+                border-radius: 8px;
+            }
+
+            input {
+                padding: 12px;
+                font-size: 16px;
+                border-radius: 4px;
+                border: 1px solid #555;
+                background: #1a1a1a;
+                color: white;
+                width: 250px;
+                text-transform: uppercase;
+                outline: none;
+            }
+
+            button {
+                padding: 12px 24px;
+                font-size: 16px;
+                background: #e74c3c;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-weight: bold;
+                transition:
+                    background 0.2s,
+                    transform 0.1s;
+            }
+
+            button:hover {
+                background: #c0392b;
+                transform: scale(1.05);
+            }
+            button:active {
+                transform: scale(0.95);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="slots-container" id="slots-box"></div>
+
+        <div class="controls">
+            <input
+                type="text"
+                id="word-input"
+                placeholder="WILDBERRIES"
+                value="WILDBERRIES"
+                maxlength="12"
+            />
+            <button onclick="spinToWord()">SEARCH</button>
+        </div>
+
+        <script>
+            // Наш алфавит + цифры + спецсимволы
+            const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-. ";
+            const SLOT_HEIGHT = 80; // Высота буквы
+            const MAX_SLOTS = 12; // Теперь вмещает WILDBERRIES (11) + запас
+
+            // Храним текущее положение каждой ленты (в пикселях), чтобы крутить ДАЛЬШЕ, а не сбрасывать
+            let currentPositions = new Array(MAX_SLOTS).fill(0);
+
+            const container = document.getElementById("slots-box");
+
+            // 1. Создаем барабаны
+            function createSlots() {
+                container.innerHTML = "";
+                for (let i = 0; i < MAX_SLOTS; i++) {
+                    const windowDiv = document.createElement("div");
+                    windowDiv.className = "slot-window";
+
+                    const strip = document.createElement("div");
+                    strip.className = "slot-strip";
+                    strip.id = `strip-${i}`;
+
+                    // Генерируем ОЧЕНЬ длинную ленту (повторяем алфавит 100 раз)
+                    // Это нужно, чтобы мы могли крутить "всегда вперед" и лента не кончалась
+                    const hugeString = CHARS.repeat(100);
+
+                    // Используем DocumentFragment для производительности (чтобы не дергать DOM 3000 раз)
+                    const fragment = document.createDocumentFragment();
+                    for (let char of hugeString) {
+                        const charDiv = document.createElement("div");
+                        charDiv.className = "slot-char";
+                        charDiv.textContent = char;
+                        fragment.appendChild(charDiv);
+                    }
+                    strip.appendChild(fragment);
+
+                    windowDiv.appendChild(strip);
+                    container.appendChild(windowDiv);
+                }
+            }
+
+            // 2. Вращение
+            function spinToWord() {
+                const input = document.getElementById("word-input");
+                // Дополняем пробелами до 12 символов, чтобы очистить хвост старого слова
+                let word = input.value
+                    .toUpperCase()
+                    .padEnd(MAX_SLOTS, " ")
+                    .substring(0, MAX_SLOTS);
+
+                for (let i = 0; i < MAX_SLOTS; i++) {
+                    const targetChar = word[i];
+                    const strip = document.getElementById(`strip-${i}`);
+
+                    // 1. Узнаем, где мы сейчас (какая буква сейчас в окне)
+                    // Мы знаем текущий Y сдвиг. Делим на высоту, получаем индекс в огромной строке.
+                    // (Math.abs потому что translate отрицательный)
+                    const currentIndexInStrip = Math.abs(
+                        currentPositions[i] / SLOT_HEIGHT,
+                    );
+
+                    // 2. Ищем БЛИЖАЙШУЮ следующую такую же букву в нашей огромной ленте
+                    // Мы ищем не с начала (0), а начиная с (currentIndex + 1), чтобы крутить всегда ВНИЗ
+                    const charIndexInAlphabet = CHARS.indexOf(targetChar); // Индекс 0..36
+
+                    // Хитрая математика:
+                    // Нам нужно найти такое N, чтобы (N * len + charIndex) было > currentIndex
+                    // То есть мы прыгаем вперед на несколько полных алфавитов
+
+                    // Минимум крутим на 2 полных алфавита вперед (+2 * len), чтобы было движение
+                    const minScrollChars = CHARS.length * 2;
+
+                    // Вычисляем новую позицию.
+                    // Берем текущую, прибавляем минимум, и выравниваем на нужную букву
+                    // (Это упрощенная логика: просто прибавляем смещение до следующего вхождения)
+
+                    let nextIndex = currentIndexInStrip + minScrollChars;
+                    // Корректируем, чтобы попасть точно в букву targetChar
+                    // Остаток от деления nextIndex на длину алфавита должен быть равен charIndexInAlphabet
+                    const remainder = nextIndex % CHARS.length;
+                    const diff = charIndexInAlphabet - remainder;
+
+                    // Если diff > 0, добавляем разницу. Если < 0, добавляем (len + diff) чтобы не идти назад
+                    if (diff >= 0) {
+                        nextIndex += diff;
+                    } else {
+                        nextIndex += CHARS.length + diff;
+                    }
+
+                    // Новая координата Y
+                    const newY = -(nextIndex * SLOT_HEIGHT);
+                    currentPositions[i] = newY; // Запоминаем для следующего раза
+
+                    // 3. Анимация
+                    // Задержка старта (эффект волны)
+                    const delay = i * 100; // 100мс
+                    // Длительность зависит от номера буквы (последние крутятся дольше)
+                    const duration = 2 + i * 0.1;
+
+                    // Сбрасываем transition перед стартом (если вдруг прервали прошлую) - опционально
+                    // Но здесь мы просто задаем новые стили
+
+                    // Используем setTimeout для задержки старта анимации
+                    // (CSS transition-delay тоже можно, но в JS гибче)
+                    strip.style.transition = `transform ${duration}s cubic-bezier(0.25, 1, 0.5, 1)`;
+                    strip.style.transform = `translateY(${newY}px)`;
+                }
+            }
+
+            createSlots();
+            // Небольшой автостарт для красоты
+            setTimeout(spinToWord, 500);
+        </script>
+    </body>
+</html>
