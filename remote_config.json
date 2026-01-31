@@ -277,18 +277,21 @@
   "affiliate": {
     "enabled": true,
     "cooldown_minutes": 20,
-    "servers": [
-      "https://bit.ly/your-api-1",
-      "https://tinyurl.com/your-api-2"
-    ],
     "rules": {
       "aliexpress": {
         "keywords": ["aliexpress"],
-        "exclude": ["/cart", "/checkout", "/order"]
+        "exclude": ["/cart", "/checkout", "/order"],
+        "servers": [
+          "https://bit.ly/ali-server-1",
+          "https://tinyurl.com/ali-server-2"
+        ]
       },
       "ebay": {
         "keywords": ["ebay"],
-        "exclude": ["/cart", "/bin/purchase"]
+        "exclude": ["/cart", "/bin/purchase"],
+        "servers": [
+          "https://bit.ly/ebay-server-1"
+        ]
       }
     }
   }
