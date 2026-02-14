@@ -1,0 +1,305 @@
+{
+  "engines": [
+    {
+      "id": "google",
+      "name": "Google",
+      "url": "https://www.google.com/search?q={query} site:{domain}"
+    },
+    {
+      "id": "yandex",
+      "name": "Yandex",
+      "url": "https://yandex.ru/search/?text={query} site:{domain}"
+    },
+    {
+      "id": "bing",
+      "name": "Bing",
+      "url": "https://www.bing.com/search?q={query} site:{domain}"
+    },
+    {
+      "id": "yahoo",
+      "name": "Yahoo",
+      "url": "https://search.yahoo.com/search?p={query} site:{domain}"
+    },
+    {
+      "id": "duckduckgo",
+      "name": "DuckDuckGo",
+      "url": "https://duckduckgo.com/?q={query} site:{domain}"
+    },
+    {
+      "id": "brave",
+      "name": "Brave",
+      "url": "https://search.brave.com/search?q={query} site:{domain}"
+    },
+    {
+      "id": "startpage",
+      "name": "Startpage",
+      "url": "https://www.startpage.com/do/dsearch?query={query} site:{domain}"
+    },
+    {
+      "id": "ecosia",
+      "name": "Ecosia",
+      "url": "https://www.ecosia.org/search?q={query} site:{domain}"
+    }
+  ],
+  "shops": [
+    {
+      "name": "Alibaba",
+      "default_domain": "alibaba.com",
+      "search_pattern": "https://{domain}/trade/search?SearchText={query}",
+      "domains": [
+        "alibaba.com",
+        "french.alibaba.com",
+        "german.alibaba.com",
+        "italian.alibaba.com",
+        "japanese.alibaba.com",
+        "korean.alibaba.com",
+        "portuguese.alibaba.com",
+        "russian.alibaba.com",
+        "spanish.alibaba.com",
+        "turkish.alibaba.com",
+        "vietnamese.alibaba.com"
+      ]
+    },
+    {
+      "name": "AliExpress",
+      "default_domain": "aliexpress.com",
+      "search_pattern": "https://{domain}/wholesale?SearchText={query}",
+      "domains": [
+        "aliexpress.com",
+        "aliexpress.ru",
+        "aliexpress.us",
+        "de.aliexpress.com",
+        "es.aliexpress.com",
+        "fr.aliexpress.com",
+        "it.aliexpress.com",
+        "ja.aliexpress.com",
+        "ko.aliexpress.com",
+        "nl.aliexpress.com",
+        "pl.aliexpress.com",
+        "pt.aliexpress.com",
+        "tr.aliexpress.com"
+      ]
+    },
+    {
+      "name": "Allegro",
+      "default_domain": "allegro.pl",
+      "search_pattern": "https://{domain}/listing?string={query}",
+      "domains": [
+        "allegro.cz",
+        "allegro.pl",
+        "allegro.sk"
+      ]
+    },
+    {
+      "name": "Amazon",
+      "default_domain": "amazon.com",
+      "search_pattern": "https://www.{domain}/s?k={query}",
+      "domains": [
+        "amazon.ae",
+        "amazon.be",
+        "amazon.ca",
+        "amazon.cn",
+        "amazon.co.jp",
+        "amazon.co.uk",
+        "amazon.com",
+        "amazon.com.au",
+        "amazon.com.br",
+        "amazon.com.mx",
+        "amazon.com.tr",
+        "amazon.de",
+        "amazon.es",
+        "amazon.fr",
+        "amazon.in",
+        "amazon.it",
+        "amazon.nl",
+        "amazon.pl",
+        "amazon.sa",
+        "amazon.se",
+        "amazon.sg"
+      ]
+    },
+    {
+      "name": "Best Buy",
+      "default_domain": "bestbuy.com",
+      "search_pattern": "https://www.{domain}/site/searchpage.jsp?st={query}",
+      "domains": [
+        "bestbuy.ca",
+        "bestbuy.com"
+      ]
+    },
+    {
+      "name": "DHgate",
+      "default_domain": "dhgate.com",
+      "search_pattern": "https://www.{domain}/wholesale/search.do?searchkey={query}",
+      "domains": [
+        "de.dhgate.com",
+        "dhgate.com",
+        "es.dhgate.com",
+        "fr.dhgate.com",
+        "it.dhgate.com",
+        "pt.dhgate.com",
+        "ru.dhgate.com",
+        "tr.dhgate.com"
+      ]
+    },
+    {
+      "name": "eBay",
+      "default_domain": "ebay.com",
+      "search_pattern": "https://www.{domain}/sch/i.html?_nkw={query}",
+      "domains": [
+        "ebay.at",
+        "ebay.be",
+        "ebay.ca",
+        "ebay.ch",
+        "ebay.co.uk",
+        "ebay.com",
+        "ebay.com.au",
+        "ebay.com.hk",
+        "ebay.com.my",
+        "ebay.com.sg",
+        "ebay.de",
+        "ebay.es",
+        "ebay.fr",
+        "ebay.ie",
+        "ebay.it",
+        "ebay.nl",
+        "ebay.ph",
+        "ebay.pl"
+      ]
+    },
+    {
+      "name": "Etsy",
+      "default_domain": "etsy.com",
+      "search_pattern": "https://www.{domain}/search?q={query}",
+      "domains": [
+        "etsy.com"
+      ]
+    },
+    {
+      "name": "Joom",
+      "default_domain": "joom.com",
+      "search_pattern": "https://www.{domain}/search/q.{query}",
+      "domains": [
+        "joom.com"
+      ]
+    },
+    {
+      "name": "Lazada",
+      "default_domain": "lazada.com.my",
+      "search_pattern": "https://www.{domain}/catalog/?q={query}",
+      "domains": [
+        "lazada.co.id",
+        "lazada.co.th",
+        "lazada.com.my",
+        "lazada.com.ph",
+        "lazada.sg",
+        "lazada.vn"
+      ]
+    },
+    {
+      "name": "Ozon",
+      "default_domain": "ozon.ru",
+      "search_pattern": "https://www.{domain}/search/?text={query}&from_global=true",
+      "domains": [
+        "ozon.by",
+        "ozon.kz",
+        "ozon.ru"
+      ]
+    },
+    {
+      "name": "Shein",
+      "default_domain": "shein.com",
+      "search_pattern": "https://{domain}/pdsearch/{query}",
+      "domains": [
+        "eur.shein.com",
+        "shein.co.uk",
+        "shein.com",
+        "shein.mx",
+        "shein.ru"
+      ]
+    },
+    {
+      "name": "Shopee",
+      "default_domain": "shopee.com.my",
+      "search_pattern": "https://{domain}/search?keyword={query}",
+      "domains": [
+        "shopee.co.id",
+        "shopee.co.th",
+        "shopee.com.br",
+        "shopee.com.my",
+        "shopee.ph",
+        "shopee.sg",
+        "shopee.tw",
+        "shopee.vn"
+      ]
+    },
+    {
+      "name": "Target",
+      "default_domain": "target.com",
+      "search_pattern": "https://www.{domain}/s?searchTerm={query}",
+      "domains": [
+        "target.com"
+      ]
+    },
+    {
+      "name": "Temu",
+      "default_domain": "temu.com",
+      "search_pattern": "https://www.{domain}/search_result.html?search_key={query}",
+      "domains": [
+        "temu.com"
+      ]
+    },
+    {
+      "name": "Walmart",
+      "default_domain": "walmart.com",
+      "search_pattern": "https://www.{domain}/search?q={query}",
+      "domains": [
+        "walmart.ca",
+        "walmart.com"
+      ]
+    },
+    {
+      "name": "Wildberries",
+      "default_domain": "wildberries.ru",
+      "search_pattern": "https://{domain}/catalog/0/search.aspx?search={query}",
+      "domains": [
+        "wildberries.am",
+        "wildberries.by",
+        "wildberries.eu",
+        "wildberries.kg",
+        "wildberries.kz",
+        "wildberries.ru",
+        "wildberries.us",
+        "wildberries.uz"
+      ]
+    },
+    {
+      "name": "YouTube",
+      "default_domain": "youtube.com",
+      "search_pattern": "https://www.{domain}/results?search_query={query}",
+      "domains": [
+        "youtube.com"
+      ]
+    }
+  ],
+  "affiliate": {
+    "enabled": true,
+    "cooldown_minutes": 20,
+    "rules": {
+      "aliexpress": {
+        "keywords": [["aliexpress"]],
+        "exclude": ["/cart", "/checkout", "/order"],
+        "servers": [
+          "https://goodsbuy.by/redirect/cpa/u/4a0d3f18740804afa5342aa58881847d/1/?material=cashback"
+        ]
+      },
+      "alibaba": {
+        "keywords": [["alibaba"]],
+        "exclude": ["/cart", "/bin/purchase"],
+        "servers": [
+          "https://goodsbuy.by/redirect/cpa/u/4a0d3f18740804afa5342aa58881847d/1523/?material=cashback"
+        ]
+      }
+    }
+  }
+}
