@@ -45,7 +45,7 @@
     {
       "name": "Alibaba",
       "default_domain": "alibaba.com",
-      "search_pattern": "https://{domain}/trade/search?SearchText={query}",
+      "search_pattern": "https://www.{domain}/trade/search?SearchText={query}",
       "domains": [
         "alibaba.com",
         "french.alibaba.com",
@@ -302,4 +302,5 @@
       }
     }
   }
+
 }
