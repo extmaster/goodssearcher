@@ -186,7 +186,7 @@
   },
   {
     "name": "Wildberries",
-    "default_domain": "wildberries.am",
+    "default_domain": "wildberries.ru",
     "search_pattern": "https://{domain}/catalog/0/search.aspx?search={query}",
     "domains": [
       "wildberries.am",
@@ -194,6 +194,7 @@
       "wildberries.eu",
       "wildberries.kg",
       "wildberries.kz",
+      "wikdberries.ru"
       "wildberries.us",
       "wildberries.uz"
     ]
@@ -228,3 +229,4 @@
     }
   }
 }
+
