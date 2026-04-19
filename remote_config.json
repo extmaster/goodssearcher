@@ -186,7 +186,7 @@
   },
   {
     "name": "Wildberries",
-    "default_domain": "wildberries.ru",
+    "default_domain": "wildberries.am",
     "search_pattern": "https://{domain}/catalog/0/search.aspx?search={query}",
     "domains": [
       "wildberries.am",
@@ -194,7 +194,6 @@
       "wildberries.eu",
       "wildberries.kg",
       "wildberries.kz",
-      "wildberries.ru",
       "wildberries.us",
       "wildberries.uz"
     ]
@@ -210,25 +209,36 @@
 ],
   "affiliate": {
     "enabled": true,
-    "cooldown_minutes": 20,
     "rules": {
       "aliexpress": {
-        "keywords": [["aliexpress"]],
+        "include": ["item"],
         "exclude": ["/cart", "/checkout", "/order"],
-        "servers": [
-          "https://goodsbuy.by/redirect/cpa/u/4a0d3f18740804afa5342aa58881847d/1/?material=cashback"
-        ]
+        "cooldown_minutes": 20
       },
       "alibaba": {
-        "keywords": [["alibaba"]],
+        "include": ["product-detail"],
         "exclude": ["/cart", "/bin/purchase"],
-        "servers": [
-          "https://goodsbuy.by/redirect/cpa/u/4a0d3f18740804afa5342aa58881847d/1523/?material=cashback"
-        ]
+        "cooldown_minutes": 20
+      },
+      "ozon": {
+        "include": ["/product"],
+        "exclude": ["/gocheckout"],
+        "cooldown_minutes": 20
+      },
+      "wildberries": {
+        "include": ["/catalog"],
+        "exclude": ["/basket"],
+        "cooldown_minutes": 20
       }
-    }
+    },
+    "selectors": {
+      "wildberries": "[aria-label=\"Подробнее о продавце\"] span[class*=\"sellerInfoNameDefaultText\"]",
+      "ozon": "a[href*=\"/seller/\"][title]"
+    },
+    "codes": {
+      "aliexpress": "1",
+      "alibaba": "1523"
+    },
+    "servers": ["https://goodsbuy.by/redirect/cpa/u/4a0d3f18740804afa5342aa58881847d/{code}/?material=cashback"]
   }
 }
-
-
-
